@@ -1,0 +1,23 @@
+{
+  "name": "mernshop",
+  "version": "1.0.0",
+  "description": "MERN Shopping cart app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node mernshop-be/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dansantander/mernshop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dansantander/mernshop/issues"
+  },
+  "homepage": "https://github.com/dansantander/mernshop#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
