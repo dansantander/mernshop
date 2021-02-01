@@ -4,7 +4,10 @@
   "description": "MERN Shopping cart app",
   "main": "index.js",
   "scripts": {
-    "start": "node mernshop-be/server"
+    "start": "node mernshop-be/server",
+    "server": "nodemon mernshop-be/server",
+    "client": "npm start --prefix mernshop-fe",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
