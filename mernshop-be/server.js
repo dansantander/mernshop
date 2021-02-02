@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js'
 import productRoutes from './routes/productRoutes.js'
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 // Once we import productRoutes, we don't need to use the products file
 // import products from './data/products.js';
@@ -24,7 +25,7 @@ app.get('/', (req, res)=> {
 
 /*
 
-+++ We were initially using this route, but we moved it to productRoutes
++++ We were initially using these routes here, but we moved it to productRoutes
 to avoid defining every route in this file +++
 
 app.get('/api/products', (req, res)=> {
@@ -32,14 +33,16 @@ app.get('/api/products', (req, res)=> {
   res.json(products);
 })
 
-*/
-
-app.use('/api/products', productRoutes);
-
 app.get('/api/products/:id', (req, res)=> {
   const product = products.find(p => p._id === req.params.id )
   res.json(product);
 })
+
+*/
+
+app.use('/api/products', productRoutes);
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

@@ -24,8 +24,11 @@ router.get('/:id',  asyncHandler(async (req, res)=> {
   const product = await Product.findById(req.params.id);
   if (product) {
     res.json(product);
-  } else {
-    res.status(404).json({ message: 'Product not found' });
+  } else { // This will be fired if we give a wrong id (but with the same length)
+    res.status(404); // We set this to be 404 but by default it's 500
+    throw new Error('Product not found');
+    // Before we defined our error handler, we used:
+    // res.status(404).json({ message: 'Product not found' });
   }
 }))
 
