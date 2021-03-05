@@ -19,14 +19,16 @@ const HomeScreen = () => {
     }
     fetchProducts();
   }, []) */
-
+  
+  // Setting the state
   const dispatch = useDispatch();
-  const productList = useSelector(state => state.productList);
-  const { loading, error, products } = productList;
-
   useEffect(() => {
     dispatch(listProducts());
   }, [dispatch])
+  
+  // Grabbing the state
+  const productList = useSelector(state => state.productList);
+  const { loading, error, products } = productList;
 
   return (
     <>
