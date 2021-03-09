@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { CART_ADD_ITEM } from '../constants/cartConstants';
 
+// getState() allows us to grab our entire state tree
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   const { data } = await axios.get(`/api/products/${id}`);
 

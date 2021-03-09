@@ -47,15 +47,15 @@ const CartScreen = ({ match, location, history}) => {
                   </Col>
                   <Col md={2}>${item.price}</Col>
                   <Col md={2}>
-                  <Form.Control
+                    <Form.Control
                         as='select'
                         value={item.qty}
                         onChange={(e)=> dispatch(addToCart(item.product, Number(e.target.value)))}
                       >
-                        {[...Array(product.countInStock).keys()].map( x =>
+                        {[...Array(item.product.countInStock).keys()].map( x =>
                           <option key={x+1} value={x+1}> {x+1} </option>
                         )}
-                      </Form.Control>
+                    </Form.Control>
                   </Col>
                 </Row>
               </ListGroup.Item>
