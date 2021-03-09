@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CART_ADD_ITEM } from '../constants/cartConstants';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants';
 
 // getState() allows us to grab our entire state tree
 export const addToCart = (id, qty) => async (dispatch, getState) => {
@@ -20,5 +20,12 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
   // Remember: we can only save strings in localStorage, so we need to
   // stringify them everytime we wanna save them
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
 
+export const removeFromCart = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: CART_REMOVE_ITEM,
+    payload: id
+  })
+  localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }

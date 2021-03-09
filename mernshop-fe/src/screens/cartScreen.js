@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
-import { addToCart } from '../actions/cartActions'
+import { addToCart, removeFromCart } from '../actions/cartActions'
 
 // We use location to read the quantity that is sent as a query string
 // in the url when we add an item to cart
@@ -25,12 +25,12 @@ const CartScreen = ({ match, location, history}) => {
 
   useEffect(() => {
     if(productId) {
-      dispatch(addToCart(productId, qty))
+      dispatch(addToCart(productId, qty));
     }
   }, [dispatch, productId, qty])
 
   const removeFromCartHandler = id => {
-    console.log('removed', id);
+    dispatch(removeFromCart(id));
   }
 
   const checkOutHandler = () => {
