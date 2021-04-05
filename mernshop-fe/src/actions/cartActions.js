@@ -18,7 +18,9 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
   })
 
   // Remember: we can only save strings in localStorage, so we need to
-  // stringify them everytime we wanna save them
+  // stringify them everytime we wanna save them.
+  // Note: getState() is a redux method that will retrieve the current state
+  // tree of our application
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 

@@ -99,6 +99,10 @@ const ProductScreen = ({ history, match }) => {
                         value={qty}
                         onChange={(e)=> setQty(e.target.value)}
                       >
+                        {/* We make an array based on the number of items of the product
+                         by using the keys method which returns an array iterator object
+                         containing the keys.
+                        */}
                         {[...Array(product.countInStock).keys()].map( x =>
                           <option key={x+1} value={x+1}> {x+1} </option>
                         )}

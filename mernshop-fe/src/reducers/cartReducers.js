@@ -7,9 +7,8 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
   
       // We find the cartItem id that is equal to the item id
       // beacause we need to consider when the item is already inside the cart
-      // The find() method returns the array element value
-      // if any of the elements in the array pass the test,
-      // otherwise it returns undefined
+      // The find() method returns the array element value if any of the elements
+      // in the array pass the test, otherwise it returns undefined
       const existItem = state.cartItems.find(x => x.product === item.product)
 
       if(existItem) {
