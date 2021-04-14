@@ -1,10 +1,18 @@
 import express from 'express';
-import Product from '../models/productModel.js';
+import { getProductById, getProducts } from '../controllers/productController.js'
+
+/* We don't need this stuff after implementing controllers */
+// import Product from '../models/productModel.js';
 // asyncHandler will allow us to handle errors
 // without having to use try catch in every route
-import asyncHandler from 'express-async-handler';
+// import asyncHandler from 'express-async-handler';
 
 const router = express.Router();
+
+/* FIRST APPROACH */
+/*--- We were doing everything inside this file--*/
+/*--- but then we implemented controllers--*/
+/*--- The old version is as follows: --*/
 
 // whenever we use a mongoose method it returns a promise
 // so we need to handle it with async await
@@ -12,24 +20,16 @@ const router = express.Router();
 // @desc    Fetch all products
 // @route   GET /api/products
 // @access  Public
-router.get('/',  asyncHandler(async (req, res)=> {
+/* router.get('/',  asyncHandler(async (req, res)=> {
   const products = await Product.find({});
   res.json(products);
-}))
+})) */
 
-// @desc    Fetch a single product
-// @route   GET /api/product/:id
-// @access  Public
-router.get('/:id',  asyncHandler(async (req, res)=> {
-  const product = await Product.findById(req.params.id);
-  if (product) {
-    res.json(product);
-  } else { // This will be fired if we give a wrong id (but with the same length)
-    res.status(404); // We set this to be 404 but by default it's 500
-    throw new Error('Product not found');
-    // Before we defined our error handler, we used:
-    // res.status(404).json({ message: 'Product not found' });
-  }
-}))
+/* SECOND APPROACH */
+/*--- We use controllers, so we just handle routes in here--*/
+
+router.route('/').get(getProducts);
+router.route('/:id').get(getProductById);
+
 
 export default router;
