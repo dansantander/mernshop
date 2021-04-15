@@ -13,7 +13,7 @@ const protect = asyncHandler( async (req, res, next) => {
     // console.log('have it');
     try {
       token = req.headers.authorization.split(' ')[1];
-
+      console.log('token', token)
       // jwt.verify will decode the token using our JWT_SECRET
       // so we save that object in a variable "decode"
       // that object looks something like what we have when
