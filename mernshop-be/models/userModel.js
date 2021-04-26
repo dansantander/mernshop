@@ -32,7 +32,7 @@ userSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 }
 // This next function will automatically run before a user is saved
-// that meanse we don´t have to call it manually elsewhere
+// that means we don´t have to call it manually elsewhere
 userSchema.pre('save', async function(next) {
   // We skip everything outside the if and return
   // from this function by using next() if the password field
