@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProductById, getProducts } from '../controllers/productController.js'
+import { getProductById, getProducts } from '../controllers/productController.js';
 
 /* We don't need this stuff after implementing controllers */
 // import Product from '../models/productModel.js';
