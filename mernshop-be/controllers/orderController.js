@@ -1,4 +1,4 @@
-import Order from '../models/productModel.js';
+import Order from '../models/orderModel.js';
 import asyncHandler from 'express-async-handler';
 
 // @desc    Create new order
@@ -32,9 +32,28 @@ const addOrderItems = asyncHandler (async (req, res) => {
       totalPrice
     })
 
-    const cretedOder = await order.save();
-    res.status(201).json(cretedOder);
+    const createdOrder = await order.save();
+    res.status(201).json(createdOrder);
   }
 })
 
-export { addOrderItems }
+// @desc    Get order by Id
+// @route   GET /api/orders/:id
+// @access  Private
+const getOrderById = asyncHandler (async (req, res) => {
+  // REMEMBER:
+  // req.params contains route parameters (in the path portion of the URL),
+  // and req.query contains the URL query parameters (after the ? in the URL).
+  const order = await Order.findById(req.params.id).populate('user', 'name email');
+  if(order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error('Order not found');
+  }
+})
+
+export { 
+  addOrderItems,
+  getOrderById
+ }
