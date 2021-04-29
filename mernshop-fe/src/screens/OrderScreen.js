@@ -26,6 +26,8 @@ const OrderScreen = ({ match }) => {
       Number(order.taxPrice);
   }
 
+ // console.log('order user name email', order.user.name)
+
   // Check for the order and also make sure that the order ID matches the ID in the URL.
   // If it does not, then dispatch getOrderDetails() to fetch the most recent order
   useEffect(() => {

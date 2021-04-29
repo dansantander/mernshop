@@ -45,6 +45,7 @@ const getOrderById = asyncHandler (async (req, res) => {
   // req.params contains route parameters (in the path portion of the URL),
   // and req.query contains the URL query parameters (after the ? in the URL).
   const order = await Order.findById(req.params.id).populate('user', 'name email');
+  // console.log('order in controller', order)
   if(order) {
     res.json(order);
   } else {
@@ -53,7 +54,34 @@ const getOrderById = asyncHandler (async (req, res) => {
   }
 })
 
+// @desc    Update order to paid
+// @route   GET /api/orders/:id/pay
+// @access  Private
+const updateOrderToPaid = asyncHandler (async (req, res) => {
+
+  const order = await Order.findById(req.params.id);
+
+  if(order) {
+    order.isPaid = true;
+    order.paidAt = Date.now();
+    // All of this comes from the PayPal result
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address
+    }
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error('Order not found');
+  }
+})
+
 export { 
   addOrderItems,
-  getOrderById
+  getOrderById,
+  updateOrderToPaid
  }
