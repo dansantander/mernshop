@@ -33,7 +33,13 @@ const CartScreen = ({ match, location, history}) => {
     dispatch(removeFromCart(id));
   }
 
+  // When we click the Checkout button, we call CheckoutHandler
+  // and it redirects us to LoginScreen passing down the value of shipping
+  // as a query parameter inside redirect
+  // Note: redirect can be named whatever we want
   const checkOutHandler = () => {
+    console.log('history', history)
+    console.log('history location', history.location)
     history.push('/login?redirect=shipping')
   }
 

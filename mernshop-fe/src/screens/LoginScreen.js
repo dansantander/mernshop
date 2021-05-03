@@ -17,12 +17,24 @@ const LoginScreen = ({ history, location }) => {
   const userLogin = useSelector(state => state.userLogin);
   // And we destructure these things from it:
   const { loading, error, userInfo } = userLogin;
+
+  // The value of redirect is grabbed from the location object
+  // Remember: Locations represent where the app is now, where you want it to go,
+  // or even where it was.
   const redirect = location.search ? location.search.split('=')[1] :'/'
-  console.log('location',location)
+  console.log('location in LoginScreen',location)
   console.log('location.search',location.search)
   console.log('redirect',redirect)
 
   useEffect(() => {
+    // So if the user is logged in, the value of redirect is whatever
+    // that is after the '=' in the query parameter
+    // For example, from CartScreen we passed is as shipping
+    // So if userInfo is not there ( user is not logged in )
+    // we are first presented with LoginScren
+    // but after login, user is redirected to ShippingScreen
+    // If the value of location doesnt' exist, we set redirect to '/'
+    // So we are redirected to the HomeScreen
     if(userInfo) {
       history.push(redirect);
     }
@@ -65,6 +77,8 @@ const LoginScreen = ({ history, location }) => {
       <Row className="py-3">
         <Col>
           New Customer?{' '}
+          {/* In url ? is used as a separator for passing query parameters*/}
+          {/* so we're passing in the url whatever the value of redirect is*/}
           <Link to={ redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link>
         </Col>
       </Row>

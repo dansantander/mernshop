@@ -1,17 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails } from "../actions/orderActions";
+import { getOrderDetails, payOrder } from "../actions/orderActions";
+import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
 const OrderScreen = ({ match }) => {
   const orderId = match.params.id;
   const dispatch = useDispatch();
 
+  const [sdkReady, setSdkReady] = useState(false);
+
   const orderDetails = useSelector((state) => state.orderDetails);
   const { loading, order, error } = orderDetails;
+
+  const orderPay = useSelector((state) => state.orderPay);
+  const { loading: loadingPay, success: successPay } = orderPay;
 
   if (!loading) {
     order.itemsPrice = order.orderItems.reduce(
@@ -31,10 +39,40 @@ const OrderScreen = ({ match }) => {
   // Check for the order and also make sure that the order ID matches the ID in the URL.
   // If it does not, then dispatch getOrderDetails() to fetch the most recent order
   useEffect(() => {
-    if (!order || order._id !== orderId) {
-      dispatch(getOrderDetails(orderId));
+
+    const addPayPalScript = async() => {
+      console.log('in addPayPalScript')
+      const { data: clientId } = await axios.get('/api/config/paypal');
+      console.log('clientId', clientId)
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      }
+      document.body.appendChild(script);
     }
-  }, [order, orderId, dispatch]);
+  
+    // We want the dispatch to be fired if we come to the page and the order isn't there
+    // and also when the order gets paid ( successPay becomes true )
+    // and when the order id from the url doesn't match the order id from the state
+    if ( !order || order._id !== orderId || successPay) {
+      dispatch({ type: ORDER_PAY_RESET });
+      dispatch(getOrderDetails(orderId));
+    } else if (!order.isPaid) {
+      if (!window.paypal) {
+        addPayPalScript()
+      } else {
+        setSdkReady(true)
+      }
+    }
+  }, [order, orderId, dispatch, successPay]);
+
+  const successPaymentHandler = (paymentResult) => {
+    console.log('paymentResult', paymentResult);
+    dispatch(payOrder(orderId, paymentResult));
+  }
 
   return loading ? (
     <Loader />
@@ -149,6 +187,14 @@ const OrderScreen = ({ match }) => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              { !order.isPaid && (
+                <ListGroup.Item>
+                  { loadingPay && <Loader /> }
+                  { !sdkReady ? <Loader /> : (
+                    <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler}/>
+                  )}
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>
