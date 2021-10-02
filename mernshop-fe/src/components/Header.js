@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { logout } from '../actions/userActions';
+import { ORDER_USER_LIST_RESET } from '../constants/orderConstants';
 
 const Header = () => {
 
@@ -12,6 +13,7 @@ const Header = () => {
   const { userInfo } = userLogin;
 
   const logoutHandler = () => {
+    //dispatch(resetUserOders());
     dispatch(logout());
   } 
   

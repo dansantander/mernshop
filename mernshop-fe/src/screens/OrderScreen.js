@@ -19,6 +19,7 @@ const OrderScreen = ({ match }) => {
   const { loading, order, error } = orderDetails;
 
   const orderPay = useSelector((state) => state.orderPay);
+  // We rename loading and success to loadingPay and successPay
   const { loading: loadingPay, success: successPay } = orderPay;
 
   if (!loading) {
@@ -55,9 +56,10 @@ const OrderScreen = ({ match }) => {
     }
   
     // We want the dispatch to be fired if we come to the page and the order isn't there
-    // and also when the order gets paid ( successPay becomes true )
-    // and when the order id from the url doesn't match the order id from the state
+    // or when the order id from the url doesn't match the order id from the state
+    // or also when the order gets paid ( successPay becomes true )
     if ( !order || order._id !== orderId || successPay) {
+    // We can just dispatch an action like this too:
       dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {

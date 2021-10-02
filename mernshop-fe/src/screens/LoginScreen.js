@@ -31,7 +31,7 @@ const LoginScreen = ({ history, location }) => {
     // that is after the '=' in the query parameter
     // For example, from CartScreen we passed is as shipping
     // So if userInfo is not there ( user is not logged in )
-    // we are first presented with LoginScren
+    // we are first presented with LoginScreen
     // but after login, user is redirected to ShippingScreen
     // If the value of location doesnt' exist, we set redirect to '/'
     // So we are redirected to the HomeScreen
@@ -77,7 +77,7 @@ const LoginScreen = ({ history, location }) => {
       <Row className="py-3">
         <Col>
           New Customer?{' '}
-          {/* In url ? is used as a separator for passing query parameters*/}
+          {/* In url "?" is used as a separator for passing query parameters*/}
           {/* so we're passing in the url whatever the value of redirect is*/}
           <Link to={ redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link>
         </Col>
