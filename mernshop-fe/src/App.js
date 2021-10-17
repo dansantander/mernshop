@@ -12,6 +12,7 @@ import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import UserListScreen from './screens/UserListScreen';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
            {/*  We make the id optional for the cart route because it's not 
             needed when we just go to the cart main screen */}
             <Route path="/cart/:id?" component={CartScreen} />
+            <Route path="/admin/userlist" component={UserListScreen} />
             <Route path="/" component={HomeScreen} exact />
           </Container>
         </main>

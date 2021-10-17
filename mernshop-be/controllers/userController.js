@@ -70,18 +70,17 @@ const registerUser = asyncHandler (async (req, res) => {
 const getUserProfile = asyncHandler (async (req, res) => {
   // res.send('success')
   // Since our middleware returns a user in req.user
+  console.log('request is', req.user)
   // we just grab the id of that user to find it
-  // Remember that 
-  // const user = User.findById(req.user._id);
+  const user = await User.findById(req.user._id);
   //console.log('user', user);
-  console.log('request', req.user)
 
-  if(req.user) {
+  if(user) {
     res.json({
-      _id: req.user._id,
-      name: req.user.name,
-      email: req.user.email,
-      isAdmin: req.user.isAdmin,
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
     })
   } else {
     res.status(404);
@@ -116,9 +115,21 @@ const updateUserProfile = asyncHandler (async (req, res) => {
   }
 })
 
+// @desc    Get  all users
+// @route   GET /api/users
+// @access  Private/Admin
+const getUsers = asyncHandler (async (req, res) => {
+
+  console.log('Inside getUsers');
+  const users = await User.find({});
+  console.log('What is users?', users);
+  res.json(users);
+})
+
 export {
   authUser,
   registerUser,
   getUserProfile,
-  updateUserProfile
+  updateUserProfile,
+  getUsers
 }
